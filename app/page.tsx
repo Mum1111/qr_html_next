@@ -40,14 +40,6 @@ export default function Home() {
     const activeLogoStyle: string =
         'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center '
 
-    const qrCenterImageInfo = {
-        // 二维码中间的logo图片
-        height: 50,
-        width: 50,
-        src: '',
-        excavate: false, // 中间图片所在的位置是否镂空
-    }
-
     const qrCodeDefaultProps: QRProps = {
         value: '',
         size: 1024, // 二维码的大小
