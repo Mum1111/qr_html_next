@@ -87,8 +87,6 @@ export default function Home() {
 
     const handlePxChange = ({ target: { value } }: any) => {
         const qrPxSize = Number(value)
-        console.log(qrPxSize)
-        console.log(Math.floor(qrPxSize / 4))
         setChooseRadioValue(qrPxSize)
         setQrCodeProps({
             ...qrCodeProps,
@@ -228,7 +226,7 @@ export default function Home() {
                                     name="ts"
                                     value={item.value}
                                     checked={item.value === chooseRadioValue}
-                                    className="mr-2"
+                                    className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
                                     onChange={(e) => handlePxChange(e)}
                                 />{' '}
                                 {item.label}
