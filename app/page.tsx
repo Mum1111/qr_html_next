@@ -6,10 +6,10 @@ import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
 
 const pxDict = [
-    { value: 2048, label: '2048 ✖️ 2048' },
-    { value: 1024, label: '1024 ✖️ 1024' },
-    { value: 512, label: '512 ✖️ 512' },
-    { value: 256, label: '256 ✖️ 256' },
+    { value: 1024, label: '2048 ✖️ 2048' },
+    { value: 512, label: '1024 ✖️ 1024' },
+    { value: 256, label: '512 ✖️ 512' },
+    { value: 128, label: '256 ✖️ 256' },
 ]
 
 const imageList = ['/2221.png', '/2223.png']
@@ -42,7 +42,7 @@ export default function Home() {
 
     const qrCodeDefaultProps: QRProps = {
         value: '',
-        size: 1024, // 二维码的大小
+        size: 512, // 二维码的大小
         fgColor: '#000000', // 二维码的颜色
         level: 'H',
         style: {
@@ -62,7 +62,7 @@ export default function Home() {
     let url = ''
 
     const [logoId, setLogoId] = useState('default')
-    const [chooseRadioValue, setChooseRadioValue] = useState(1024)
+    const [chooseRadioValue, setChooseRadioValue] = useState(512)
     const [qrCodeProps, setQrCodeProps] = useState(qrCodeDefaultProps)
 
     const chooseLogo = (logoID: string) => {
