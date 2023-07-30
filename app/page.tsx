@@ -4,8 +4,6 @@ import { Icon } from '@iconify/react'
 import { CSSProperties, useState } from 'react'
 import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
-import { SessionProvider } from 'next-auth/react'
-import LoginBtn from '@/app/components/LoginBtn'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -126,139 +124,130 @@ export default function Home() {
     }
 
     return (
-        <>
-            <SessionProvider>
-                <LoginBtn />
-                <main className="min-h-screen flex items-center box-border justify-center px-24">
-                    <div
-                        style={{ height: '556px' }}
-                        className="bg-white rounded-xl box-border shadow-2xl w-3/4 mr-4 px-14 flex flex-col justify-center"
+        <main className="min-h-screen flex items-center box-border justify-center px-24">
+            <div
+                style={{ height: '556px' }}
+                className="bg-white rounded-xl box-border shadow-2xl w-3/4 mr-4 px-14 flex flex-col justify-center"
+            >
+                <div className="font-bold text-gray-600 text-xl mb-2 ml-2">
+                    网站/网址
+                </div>
+                <input
+                    type="url"
+                    className="rounded-md border-2 focus:border-teal-600  focus:ring-2 focus:ring-teal-600 "
+                    placeholder="https://qr.mumi666.com"
+                    onInput={(e) => handleInput(e)}
+                />
+                <div className="mt-10">
+                    <button
+                        className="px-10 py-3 text-white transition flex items-center duration-700 ease-in-out  bg-teal-500 rounded-full hover:scale-110 hover:bg-teal-600"
+                        onClick={() => createQrcode()}
                     >
-                        <div className="font-bold text-gray-600 text-xl mb-2 ml-2">
-                            网站/网址
-                        </div>
-                        <input
-                            type="url"
-                            className="rounded-md border-2 focus:border-teal-600  focus:ring-2 focus:ring-teal-600 "
-                            placeholder="https://qr.mumi666.com"
-                            onInput={(e) => handleInput(e)}
+                        <Icon
+                            icon={'ic:twotone-refresh'}
+                            fontSize={18}
+                            className="mr-3"
                         />
-                        <div className="mt-10">
-                            <button
-                                className="px-10 py-3 text-white transition flex items-center duration-700 ease-in-out  bg-teal-500 rounded-full hover:scale-110 hover:bg-teal-600"
-                                onClick={() => createQrcode()}
-                            >
-                                <Icon
-                                    icon={'ic:twotone-refresh'}
-                                    fontSize={18}
-                                    className="mr-3"
-                                />
-                                创建二维码
-                            </button>
-                        </div>
+                        创建二维码
+                    </button>
+                </div>
+            </div>
+            <div className="w-2/5 border-solid border-2 py-16 box-border border-gray-400 rounded-xl bg-white flex flex-col items-center">
+                <div
+                    style={{ width: '174px', height: '174px' }}
+                    className="bg-gray-300"
+                >
+                    <QRCode id="qrCode" {...qrCodeProps} />
+                </div>
+                <div className="mt-4 bg-gray-100 pb-2 w-2/3">
+                    <div className="flex justify-between items-center p-2 bg-teal-500 text-white">
+                        <div className="font-bold">LOGO</div>
+                        <Icon
+                            icon="ic:baseline-keyboard-arrow-up"
+                            fontSize={24}
+                            className="cursor-pointer"
+                        />
                     </div>
-                    <div className="w-2/5 border-solid border-2 py-16 box-border border-gray-400 rounded-xl bg-white flex flex-col items-center">
+                    <div className="p-2 my-3 grid grid-cols-4 gap-2">
                         <div
-                            style={{ width: '174px', height: '174px' }}
-                            className="bg-gray-300"
+                            className={
+                                logoId === 'default'
+                                    ? activeLogoStyle
+                                    : defaultLogoStyle
+                            }
+                            onClick={() => chooseLogo('default')}
                         >
-                            <QRCode id="qrCode" {...qrCodeProps} />
+                            <Icon
+                                icon="ic:outline-close"
+                                fontSize={28}
+                                className="text-gray-400"
+                            />
                         </div>
-
-                        <div className="mt-4 bg-gray-100 pb-2 w-2/3">
-                            <div className="flex justify-between items-center p-2 bg-teal-500 text-white">
-                                <div className="font-bold">LOGO</div>
-                                <Icon
-                                    icon="ic:baseline-keyboard-arrow-up"
-                                    fontSize={24}
-                                    className="cursor-pointer"
-                                />
-                            </div>
-                            <div className="p-2 my-3 grid grid-cols-4 gap-2">
-                                <div
-                                    className={
-                                        logoId === 'default'
-                                            ? activeLogoStyle
-                                            : defaultLogoStyle
-                                    }
-                                    onClick={() => chooseLogo('default')}
-                                >
-                                    <Icon
-                                        icon="ic:outline-close"
-                                        fontSize={28}
-                                        className="text-gray-400"
-                                    />
-                                </div>
-                                {imageList.map((item) => (
-                                    <div
-                                        key={item}
-                                        className={
-                                            logoId === item
-                                                ? activeLogoStyle
-                                                : defaultLogoStyle
-                                        }
-                                        onClick={() => chooseLogo(item)}
-                                    >
-                                        <NextImage
-                                            src={item}
-                                            alt={''}
-                                            width={48}
-                                            height={48}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="underline px-2 decoration-teal-500 text-xs text-teal-500 cursor-pointer">
-                                上传你的LOGO
-                            </div>
-                        </div>
-
-                        <div className="mt-4 bg-gray-100 pb-2 w-2/3">
-                            <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
-                                <div className="font-bold">尺寸</div>
-                                <Icon
-                                    icon="ic:baseline-keyboard-arrow-down"
-                                    fontSize={24}
-                                    className="cursor-pointer"
-                                />
-                            </div>
-                            <div className="px-2 grid grid-cols-2 gap-1 text-sm text-gray-800 font-semibold">
-                                {pxDict.map((item) => (
-                                    <label
-                                        className="flex items-center"
-                                        key={item.value}
-                                    >
-                                        <input
-                                            type="radio"
-                                            name="ts"
-                                            value={item.value}
-                                            checked={
-                                                item.value === chooseRadioValue
-                                            }
-                                            className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
-                                            onChange={(e) => handlePxChange(e)}
-                                        />{' '}
-                                        {item.label}
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex justify-start mt-5 w-full px-16">
-                            <button
-                                className="px-10 py-3 flex items-center text-white transition duration-700 ease-in-out  bg-teal-500 rounded-md hover:scale-110 hover:bg-teal-600"
-                                onClick={() => downLoadQrCode()}
+                        {imageList.map((item) => (
+                            <div
+                                key={item}
+                                className={
+                                    logoId === item
+                                        ? activeLogoStyle
+                                        : defaultLogoStyle
+                                }
+                                onClick={() => chooseLogo(item)}
                             >
-                                <Icon
-                                    icon={'material-symbols:download'}
-                                    fontSize={18}
-                                    className={'mr-2'}
+                                <NextImage
+                                    src={item}
+                                    alt={''}
+                                    width={48}
+                                    height={48}
                                 />
-                                下载二维码
-                            </button>
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </main>
-            </SessionProvider>
-        </>
+                    <div className="underline px-2 decoration-teal-500 text-xs text-teal-500 cursor-pointer">
+                        上传你的LOGO
+                    </div>
+                </div>
+                <div className="mt-4 bg-gray-100 pb-2 w-2/3">
+                    <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
+                        <div className="font-bold">尺寸</div>
+                        <Icon
+                            icon="ic:baseline-keyboard-arrow-down"
+                            fontSize={24}
+                            className="cursor-pointer"
+                        />
+                    </div>
+                    <div className="px-2 grid grid-cols-2 gap-1 text-sm text-gray-800 font-semibold">
+                        {pxDict.map((item) => (
+                            <label
+                                className="flex items-center"
+                                key={item.value}
+                            >
+                                <input
+                                    type="radio"
+                                    name="ts"
+                                    value={item.value}
+                                    checked={item.value === chooseRadioValue}
+                                    className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
+                                    onChange={(e) => handlePxChange(e)}
+                                />{' '}
+                                {item.label}
+                            </label>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-start mt-5 w-full px-16">
+                    <button
+                        className="px-10 py-3 flex items-center text-white transition duration-700 ease-in-out  bg-teal-500 rounded-md hover:scale-110 hover:bg-teal-600"
+                        onClick={() => downLoadQrCode()}
+                    >
+                        <Icon
+                            icon={'material-symbols:download'}
+                            fontSize={18}
+                            className={'mr-2'}
+                        />
+                        下载二维码
+                    </button>
+                </div>
+            </div>
+        </main>
     )
 }
