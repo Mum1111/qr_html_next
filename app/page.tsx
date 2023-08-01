@@ -5,7 +5,7 @@ import { CSSProperties, useState } from 'react'
 import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
 import { SessionProvider } from 'next-auth/react'
-import LoginButton from '@/app/components/LoginButton'
+import MenuAppBar from '@/app/components/MenuAppBar'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -127,8 +127,9 @@ export default function Home() {
 
     return (
         <SessionProvider>
-            <LoginButton />
-            <main className="min-h-screen flex items-center box-border justify-center px-24">
+            {/*<LoginButton />*/}
+            <MenuAppBar />
+            <main className="h-calc mt-20 flex items-center box-border justify-center px-24">
                 <div
                     style={{ height: '556px' }}
                     className="bg-white rounded-xl box-border shadow-2xl w-3/4 mr-4 px-14 flex flex-col justify-center"
