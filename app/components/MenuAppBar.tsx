@@ -5,8 +5,10 @@ import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import { Avatar } from '@mui/material'
-import { useSession } from 'next-auth/react'
+import { Avatar, Button } from '@mui/material'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { teal, grey } from '@mui/material/colors'
+import { useRouter } from 'next/navigation'
 
 function stringToColor(string: string) {
     let hash = 0
@@ -45,6 +47,7 @@ export default function MenuAppBar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
     const { data: session } = useSession()
+    const router = useRouter()
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
@@ -54,17 +57,40 @@ export default function MenuAppBar() {
         setAnchorEl(null)
     }
 
+    const editUserInfo = () => {
+        handleClose()
+        console.log(123)
+        router.push('/user')
+    }
+
+    const logOut = () => {
+        handleClose()
+        signOut()
+    }
+
     return (
         <AppBar
             position="fixed"
-            className="bg-slate-50 bg-opacity-50 backdrop-blur-md text-black"
+            sx={{ bgcolor: grey[50] }}
+            className="bg-opacity-50 backdrop-blur-md text-black"
         >
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{ flexGrow: 1, color: '#14b8a6' }}
+                >
                     二维码生成
                 </Typography>
                 {session && (
-                    <div>
+                    <div className="flex items-center">
+                        <Typography
+                            variant="subtitle1"
+                            gutterBottom
+                            sx={{ flexGrow: 1, color: grey[700] }}
+                        >
+                            欢迎尊贵的&nbsp;{session.user.email}
+                        </Typography>
                         <IconButton
                             size="medium"
                             aria-label="account of current user"
@@ -90,10 +116,24 @@ export default function MenuAppBar() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>编辑资料</MenuItem>
-                            <MenuItem onClick={handleClose}>退出登录</MenuItem>
+                            <MenuItem onClick={() => editUserInfo()}>
+                                编辑资料
+                            </MenuItem>
+                            <MenuItem onClick={() => logOut()}>
+                                退出登录
+                            </MenuItem>
                         </Menu>
                     </div>
+                )}
+                {!session && (
+                    <>
+                        <Button
+                            sx={{ color: teal[500] }}
+                            onClick={() => signIn()}
+                        >
+                            登录
+                        </Button>
+                    </>
                 )}
             </Toolbar>
         </AppBar>

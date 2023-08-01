@@ -6,6 +6,7 @@ import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
 import { SessionProvider } from 'next-auth/react'
 import MenuAppBar from '@/app/components/MenuAppBar'
+import { TextField } from '@mui/material'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -137,7 +138,7 @@ export default function Home() {
                     <div className="font-bold text-gray-600 text-xl mb-2 ml-2">
                         网站/网址
                     </div>
-                    <input
+                    <TextField
                         type="url"
                         className="rounded-md border-2 focus:border-teal-600  focus:ring-2 focus:ring-teal-600 "
                         placeholder="https://qr.mumi666.com"
