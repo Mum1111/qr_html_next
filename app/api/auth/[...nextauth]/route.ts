@@ -1,5 +1,6 @@
 import NextAuth, { AuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
+import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
 
@@ -13,6 +14,20 @@ export const authOptions: AuthOptions = {
         maxAge: 60 * 60 * 24 * 30,
     },
     providers: [
+        EmailProvider({
+            // server: process.env.EMAIL_SERVER,
+            // from: process.env.EMAIL_FROM,
+            //maxAge: 24 * 60 * 60, // 设置邮箱链接失效时间，默认24小时
+            server: {
+                host: process.env.EMAIL_SERVER_HOST,
+                port: process.env.EMAIL_SERVER_PORT,
+                auth: {
+                    user: process.env.EMAIL_SERVER_USER,
+                    pass: process.env.EMAIL_SERVER_PASSWORD,
+                },
+            },
+            from: process.env.EMAIL_FROM,
+        }),
         GithubProvider({
             // @ts-ignore
             clientId: process.env.GITHUB_ID,

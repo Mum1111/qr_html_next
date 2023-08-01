@@ -127,8 +127,8 @@ export default function Home() {
 
     return (
         <SessionProvider>
+            <LoginButton />
             <main className="min-h-screen flex items-center box-border justify-center px-24">
-                <LoginButton />
                 <div
                     style={{ height: '556px' }}
                     className="bg-white rounded-xl box-border shadow-2xl w-3/4 mr-4 px-14 flex flex-col justify-center"
