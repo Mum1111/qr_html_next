@@ -7,7 +7,7 @@ export default function User() {
         <>
             <Container maxWidth="sm" className="h-screen overflow-hidden">
                 <Box
-                    className=" border-2 border-dashed border-teal-500 rounded shrink-0 mt-20"
+                    className=" rounded shrink-0 mt-20 shadow-lg"
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -22,9 +22,14 @@ export default function User() {
                         label="修改昵称"
                         variant="outlined"
                     />
-                    <Button variant="contained" className="mt-5">
-                        提交
-                    </Button>
+                    <div>
+                        <Button variant="contained" className="mt-5 mr-5">
+                            提交
+                        </Button>
+                        <Button variant="outlined" className="mt-5">
+                            返回
+                        </Button>
+                    </div>
                 </Box>
             </Container>
         </>

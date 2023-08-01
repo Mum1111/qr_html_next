@@ -6,7 +6,7 @@ import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
 import { SessionProvider } from 'next-auth/react'
 import MenuAppBar from '@/app/components/MenuAppBar'
-import { TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -145,7 +145,7 @@ export default function Home() {
                         onInput={(e) => handleInput(e)}
                     />
                     <div className="mt-10">
-                        <button
+                        <Button
                             className="px-10 py-3 text-white transition flex items-center duration-700 ease-in-out  bg-teal-500 rounded-full hover:scale-110 hover:bg-teal-600"
                             onClick={() => createQrcode()}
                         >
@@ -155,17 +155,17 @@ export default function Home() {
                                 className="mr-3"
                             />
                             创建二维码
-                        </button>
+                        </Button>
                     </div>
                 </div>
-                <div className="w-2/5 border-solid border-2 py-16 box-border border-gray-400 rounded-xl bg-white flex flex-col items-center">
+                <div className="w-2/5 border-solid border-2 p-8 box-border border-gray-400 rounded-xl flex flex-col items-center">
                     <div
                         style={{ width: '174px', height: '174px' }}
                         className="bg-gray-300"
                     >
                         <QRCode id="qrCode" {...qrCodeProps} />
                     </div>
-                    <div className="mt-4 bg-gray-100 pb-2 w-2/3">
+                    <div className="mt-4 bg-gray-100 pb-2 w-full">
                         <div className="flex justify-between items-center p-2 bg-teal-500 text-white">
                             <div className="font-bold">LOGO</div>
                             <Icon
@@ -178,7 +178,7 @@ export default function Home() {
                             <div
                                 className={
                                     logoId === 'default'
-                                        ? activeLogoStyle
+                                        ? 'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center'
                                         : defaultLogoStyle
                                 }
                                 onClick={() => chooseLogo('default')}
@@ -212,7 +212,7 @@ export default function Home() {
                             上传你的LOGO
                         </div>
                     </div>
-                    <div className="mt-4 bg-gray-100 pb-2 w-2/3">
+                    <div className="mt-4 bg-gray-100 pb-2 w-full">
                         <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
                             <div className="font-bold">尺寸</div>
                             <Icon
@@ -242,8 +242,8 @@ export default function Home() {
                             ))}
                         </div>
                     </div>
-                    <div className="flex justify-start mt-5 w-full px-16">
-                        <button
+                    <div className="flex justify-start mt-5 w-full">
+                        <Button
                             className="px-10 py-3 flex items-center text-white transition duration-700 ease-in-out  bg-teal-500 rounded-md hover:scale-110 hover:bg-teal-600"
                             onClick={() => downLoadQrCode()}
                         >
@@ -253,7 +253,7 @@ export default function Home() {
                                 className={'mr-2'}
                             />
                             下载二维码
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </main>
