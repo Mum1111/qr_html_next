@@ -127,7 +127,7 @@ export default function Home() {
     }
 
     return (
-        <SessionProvider>
+        <>
             {/*<LoginButton />*/}
             <MenuAppBar />
             <main className="h-calc mt-20 flex items-center box-border justify-center px-24">
@@ -257,6 +257,6 @@ export default function Home() {
                     </div>
                 </div>
             </main>
-        </SessionProvider>
+        </>
     )
 }
