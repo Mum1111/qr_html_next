@@ -1,10 +1,9 @@
 'use client'
 
 import { Icon } from '@iconify/react'
-import { CSSProperties, useState } from 'react'
+import { CSSProperties, useRef, useState } from 'react'
 import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
-import { SessionProvider } from 'next-auth/react'
 import MenuAppBar from '@/app/components/MenuAppBar'
 import { Button, TextField } from '@mui/material'
 
@@ -42,6 +41,8 @@ export default function Home() {
         'w-12 h-12 border-gray-400 border-2 box-border cursor-pointer flex justify-center items-center'
     const activeLogoStyle: string =
         'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center '
+
+    const hiddenFileInput = useRef(null)
 
     const qrCodeDefaultProps: QRProps = {
         value: '',
@@ -86,6 +87,35 @@ export default function Home() {
 
     const handleInput = ({ target: { value } }: any) => {
         url = value
+    }
+
+    const handleFileInputChange = (event: any) => {
+        console.log('file', event.target.files[0])
+
+        uploadLogo(event.target.files[0])
+    }
+
+    const handleHiddenFileInputShow = () => {
+        console.log(1111)
+        // @ts-ignore
+        hiddenFileInput.current.click()
+    }
+
+    const uploadLogo = async (file: any) => {
+        const data = new FormData()
+
+        data.append('image', file)
+        data.append('imageUrl', window.URL.createObjectURL(file))
+        // const body: BodyInit = {
+        //     logo: file,
+        // }
+
+        const res = await fetch('/api/common/upload', {
+            method: 'POST',
+            body: data,
+        })
+
+        console.log('res', await res.json())
     }
 
     const handlePxChange = ({ target: { value } }: any) => {
@@ -208,9 +238,18 @@ export default function Home() {
                                 </div>
                             ))}
                         </div>
-                        <div className="underline px-2 decoration-teal-500 text-xs text-teal-500 cursor-pointer">
+                        <Button
+                            className="underline px-2 decoration-teal-500 text-xs text-teal-500 cursor-pointer"
+                            onClick={handleHiddenFileInputShow}
+                        >
                             上传你的LOGO
-                        </div>
+                        </Button>
+                        <input
+                            type="file"
+                            hidden
+                            ref={hiddenFileInput}
+                            onChange={handleFileInputChange}
+                        />
                     </div>
                     <div className="mt-4 bg-gray-100 pb-2 w-full">
                         <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
