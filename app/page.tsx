@@ -6,6 +6,7 @@ import QRCode from 'qrcode.react'
 import NextImage from 'next/image'
 import MenuAppBar from '@/app/components/MenuAppBar'
 import { Button, TextField } from '@mui/material'
+import { uploadLogo } from '@/hooks/service/logo'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -42,7 +43,7 @@ export default function Home() {
     const activeLogoStyle: string =
         'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center '
 
-    const hiddenFileInput = useRef(null)
+    const hiddenFileInput = useRef<HTMLInputElement>(null)
 
     const qrCodeDefaultProps: QRProps = {
         value: '',
@@ -89,33 +90,20 @@ export default function Home() {
         url = value
     }
 
-    const handleFileInputChange = (event: any) => {
+    const handleFileInputChange = async (event: any) => {
         console.log('file', event.target.files[0])
+        const file = event.target.files[0]
 
-        uploadLogo(event.target.files[0])
+        const data = new FormData()
+        data.append('image', file)
+
+        const res = await uploadLogo(data)
+
+        console.log('res', res)
     }
 
     const handleHiddenFileInputShow = () => {
-        console.log(1111)
-        // @ts-ignore
-        hiddenFileInput.current.click()
-    }
-
-    const uploadLogo = async (file: any) => {
-        const data = new FormData()
-
-        data.append('image', file)
-        data.append('imageUrl', window.URL.createObjectURL(file))
-        // const body: BodyInit = {
-        //     logo: file,
-        // }
-
-        const res = await fetch('/api/common/upload', {
-            method: 'POST',
-            body: data,
-        })
-
-        console.log('res', await res.json())
+        hiddenFileInput.current && hiddenFileInput.current.click()
     }
 
     const handlePxChange = ({ target: { value } }: any) => {
