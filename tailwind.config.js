@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    important: true,
     corePlugins: {
         preflight: false,
     },
@@ -20,4 +21,5 @@ module.exports = {
             },
         },
     },
+    plugins: [],
 }

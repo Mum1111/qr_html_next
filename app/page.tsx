@@ -7,6 +7,7 @@ import NextImage from 'next/image'
 import MenuAppBar from '@/app/components/MenuAppBar'
 import { Button, TextField } from '@mui/material'
 import { uploadLogo } from '@/hooks/service/logo'
+import { useSnackbar } from 'notistack'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -38,10 +39,11 @@ interface QRProps {
 }
 
 export default function Home() {
+    const { enqueueSnackbar } = useSnackbar()
     const defaultLogoStyle: string =
-        'w-12 h-12 border-gray-400 border-2 box-border cursor-pointer flex justify-center items-center'
+        'h-12 w-12 border-gray-400 border-2 border-solid box-border cursor-pointer flex justify-center items-center'
     const activeLogoStyle: string =
-        'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center '
+        'h-12 w-12 border-teal-500 border-2 box-border border-solid cursor-pointer flex justify-center items-center'
 
     const hiddenFileInput = useRef<HTMLInputElement>(null)
 
@@ -97,9 +99,17 @@ export default function Home() {
         const data = new FormData()
         data.append('image', file)
 
-        const res = await uploadLogo(data)
-
-        console.log('res', res)
+        try {
+            const { success }: any = await uploadLogo(data)
+            //TODO: 上传成功后查询logo列表 渲染到前端
+            enqueueSnackbar(success, {
+                variant: 'success',
+            })
+        } catch (e) {
+            console.log('e', e)
+            // @ts-ignore
+            enqueueSnackbar(e, { variant: 'error' })
+        }
     }
 
     const handleHiddenFileInputShow = () => {
@@ -133,13 +143,13 @@ export default function Home() {
         const canvasImg: any = document.getElementById('qrCode') // 获取canvas类型的二维码
         const img = new Image()
         const link = document.createElement('a')
-        const evt = document.createEvent('MouseEvents')
+        const evt = new Event('click', { bubbles: false, cancelable: false })
         img.src = canvasImg.toDataURL('image/png') // 将canvas对象转换为图片的data url
         link.style.display = 'none'
         link.href = img.src
         link.download = fileName
         document.body.appendChild(link) // 此写法兼容可火狐浏览器
-        evt.initEvent('click', false, false)
+        // evt.initEvent('click', false, false)
         link.dispatchEvent(evt)
         document.body.removeChild(link)
     }
@@ -196,7 +206,7 @@ export default function Home() {
                             <div
                                 className={
                                     logoId === 'default'
-                                        ? 'w-12 h-12 border-teal-500 border-2 box-border cursor-pointer flex justify-center items-center'
+                                        ? 'w-12 h-12 border-teal-500 border-solid border-2 box-border cursor-pointer flex justify-center items-center'
                                         : defaultLogoStyle
                                 }
                                 onClick={() => chooseLogo('default')}

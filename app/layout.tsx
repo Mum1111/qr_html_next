@@ -3,6 +3,7 @@ import './globals.css'
 import React, { Suspense } from 'react'
 import Loading from '@/app/loading'
 import { SessionProvider } from 'next-auth/react'
+import { SnackbarProvider } from 'notistack'
 
 // export const metadata = {
 //     title: '二维码',
@@ -14,7 +15,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <html lang="zh-CN">
             <body>
                 <SessionProvider>
-                    <div>{props.children}</div>
+                    <SnackbarProvider maxSnack={3}>
+                        <div>{props.children}</div>
+                    </SnackbarProvider>
                 </SessionProvider>
                 {/*<Suspense fallback={<Loading />}>{props.children}</Suspense>*/}
             </body>
