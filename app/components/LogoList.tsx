@@ -3,27 +3,33 @@
 import { Icon } from '@iconify/react'
 import NextImage from 'next/image'
 import { Button } from '@mui/material'
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { uploadLogo } from '@/hooks/service/logo'
 import { enqueueSnackbar } from 'notistack'
 import { useLogo } from '@/hooks/swrHooks/logo'
 import { mutate } from 'swr'
+
+// type RenderFunctionType = (data: string) => void // 根据实际情况定义类型
+
+interface LogoListProps {
+    genQrCenterLogo: any
+}
 
 const defaultLogoStyle: string =
     'h-12 w-12 border-gray-400 border-2 border-solid box-border cursor-pointer flex justify-center items-center'
 const activeLogoStyle: string =
     'h-12 w-12 border-teal-500 border-2 box-border border-solid cursor-pointer flex justify-center items-center'
 
-export const LogoList = () => {
+export const LogoList: React.FC<LogoListProps> = ({ genQrCenterLogo }) => {
     const hiddenFileInput = useRef<HTMLInputElement>(null)
 
     const [logoId, setLogoId] = useState('default')
 
-    const { logoList, isError, isLoading } = useLogo()
+    const { logoList } = useLogo()
 
     const chooseLogo = (logoId: string) => {
-        console.log('logoId', logoId)
         setLogoId(logoId)
+        genQrCenterLogo(logoId)
     }
 
     const handleHiddenFileInputShow = () => {
@@ -78,11 +84,11 @@ export const LogoList = () => {
                         <div
                             key={item.id}
                             className={
-                                logoId === item.id
+                                logoId === item.imageUrl
                                     ? activeLogoStyle
                                     : defaultLogoStyle
                             }
-                            onClick={() => chooseLogo(item.id)}
+                            onClick={() => chooseLogo(item.imageUrl)}
                         >
                             <NextImage
                                 src={item.imageUrl}

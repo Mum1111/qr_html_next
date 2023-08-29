@@ -4,9 +4,7 @@ import { Icon } from '@iconify/react'
 import { CSSProperties, useState } from 'react'
 import QRCode from 'qrcode.react'
 import MenuAppBar from '@/app/components/MenuAppBar'
-import { Button, TextField } from '@mui/material'
-import { useSnackbar } from 'notistack'
-import { useLogo } from '@/hooks/swrHooks/logo'
+import { Button, Radio, TextField } from '@mui/material'
 import { LogoList } from '@/app/components/LogoList'
 
 const pxDict = [
@@ -37,8 +35,6 @@ interface QRProps {
 }
 
 export default function Home() {
-    const { enqueueSnackbar } = useSnackbar()
-
     const qrCodeDefaultProps: QRProps = {
         value: '',
         size: 512, // 二维码的大小
@@ -60,12 +56,10 @@ export default function Home() {
 
     let url = ''
 
-    const [logoId, setLogoId] = useState('default')
     const [chooseRadioValue, setChooseRadioValue] = useState(512)
     const [qrCodeProps, setQrCodeProps] = useState(qrCodeDefaultProps)
 
     const chooseLogo = (logoID: string) => {
-        setLogoId(logoID)
         let imageUrl = ''
         if (logoID !== 'default') {
             imageUrl = logoID
@@ -110,6 +104,7 @@ export default function Home() {
         const fileName = `${new Date().getTime()}`
         const canvasImg: any = document.getElementById('qrCode') // 获取canvas类型的二维码
         const img = new Image()
+        img.crossOrigin = 'anonymous'
         const link = document.createElement('a')
         const evt = new Event('click', { bubbles: false, cancelable: false })
         img.src = canvasImg.toDataURL('image/png') // 将canvas对象转换为图片的data url
@@ -160,7 +155,7 @@ export default function Home() {
                     >
                         <QRCode id="qrCode" {...qrCodeProps} />
                     </div>
-                    <LogoList />
+                    <LogoList genQrCenterLogo={chooseLogo} />
                     <div className="mt-4 bg-gray-100 pb-2 w-full">
                         <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
                             <div className="font-bold">尺寸</div>
@@ -176,16 +171,15 @@ export default function Home() {
                                     className="flex items-center"
                                     key={item.value}
                                 >
-                                    <input
-                                        type="radio"
+                                    <Radio
                                         name="ts"
+                                        className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
                                         value={item.value}
                                         checked={
                                             item.value === chooseRadioValue
                                         }
-                                        className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
                                         onChange={(e) => handlePxChange(e)}
-                                    />{' '}
+                                    />
                                     {item.label}
                                 </label>
                             ))}
