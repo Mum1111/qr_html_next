@@ -1,13 +1,13 @@
 'use client'
 
 import { Icon } from '@iconify/react'
-import { CSSProperties, useRef, useState } from 'react'
+import { CSSProperties, useState } from 'react'
 import QRCode from 'qrcode.react'
-import NextImage from 'next/image'
 import MenuAppBar from '@/app/components/MenuAppBar'
 import { Button, TextField } from '@mui/material'
-import { uploadLogo } from '@/hooks/service/logo'
 import { useSnackbar } from 'notistack'
+import { useLogo } from '@/hooks/swrHooks/logo'
+import { LogoList } from '@/app/components/LogoList'
 
 const pxDict = [
     { value: 1024, label: '2048 ✖️ 2048' },
@@ -15,8 +15,6 @@ const pxDict = [
     { value: 256, label: '512 ✖️ 512' },
     { value: 128, label: '256 ✖️ 256' },
 ]
-
-const imageList = ['/2221.png', '/2223.png']
 
 interface ImageSettings {
     src: string
@@ -40,12 +38,6 @@ interface QRProps {
 
 export default function Home() {
     const { enqueueSnackbar } = useSnackbar()
-    const defaultLogoStyle: string =
-        'h-12 w-12 border-gray-400 border-2 border-solid box-border cursor-pointer flex justify-center items-center'
-    const activeLogoStyle: string =
-        'h-12 w-12 border-teal-500 border-2 box-border border-solid cursor-pointer flex justify-center items-center'
-
-    const hiddenFileInput = useRef<HTMLInputElement>(null)
 
     const qrCodeDefaultProps: QRProps = {
         value: '',
@@ -92,30 +84,6 @@ export default function Home() {
         url = value
     }
 
-    const handleFileInputChange = async (event: any) => {
-        console.log('file', event.target.files[0])
-        const file = event.target.files[0]
-
-        const data = new FormData()
-        data.append('image', file)
-
-        try {
-            const { success }: any = await uploadLogo(data)
-            //TODO: 上传成功后查询logo列表 渲染到前端
-            enqueueSnackbar(success, {
-                variant: 'success',
-            })
-        } catch (e) {
-            console.log('e', e)
-            // @ts-ignore
-            enqueueSnackbar(e, { variant: 'error' })
-        }
-    }
-
-    const handleHiddenFileInputShow = () => {
-        hiddenFileInput.current && hiddenFileInput.current.click()
-    }
-
     const handlePxChange = ({ target: { value } }: any) => {
         const qrPxSize = Number(value)
         setChooseRadioValue(qrPxSize)
@@ -156,7 +124,6 @@ export default function Home() {
 
     return (
         <>
-            {/*<LoginButton />*/}
             <MenuAppBar />
             <main className="h-calc mt-20 flex items-center box-border justify-center px-24">
                 <div
@@ -193,62 +160,7 @@ export default function Home() {
                     >
                         <QRCode id="qrCode" {...qrCodeProps} />
                     </div>
-                    <div className="mt-4 bg-gray-100 pb-2 w-full">
-                        <div className="flex justify-between items-center p-2 bg-teal-500 text-white">
-                            <div className="font-bold">LOGO</div>
-                            <Icon
-                                icon="ic:baseline-keyboard-arrow-up"
-                                fontSize={24}
-                                className="cursor-pointer"
-                            />
-                        </div>
-                        <div className="p-2 my-3 grid grid-cols-4 gap-2">
-                            <div
-                                className={
-                                    logoId === 'default'
-                                        ? 'w-12 h-12 border-teal-500 border-solid border-2 box-border cursor-pointer flex justify-center items-center'
-                                        : defaultLogoStyle
-                                }
-                                onClick={() => chooseLogo('default')}
-                            >
-                                <Icon
-                                    icon="ic:outline-close"
-                                    fontSize={28}
-                                    className="text-gray-400"
-                                />
-                            </div>
-                            {imageList.map((item) => (
-                                <div
-                                    key={item}
-                                    className={
-                                        logoId === item
-                                            ? activeLogoStyle
-                                            : defaultLogoStyle
-                                    }
-                                    onClick={() => chooseLogo(item)}
-                                >
-                                    <NextImage
-                                        src={item}
-                                        alt={''}
-                                        width={48}
-                                        height={48}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <Button
-                            className="underline px-2 decoration-teal-500 text-xs text-teal-500 cursor-pointer"
-                            onClick={handleHiddenFileInputShow}
-                        >
-                            上传你的LOGO
-                        </Button>
-                        <input
-                            type="file"
-                            hidden
-                            ref={hiddenFileInput}
-                            onChange={handleFileInputChange}
-                        />
-                    </div>
+                    <LogoList />
                     <div className="mt-4 bg-gray-100 pb-2 w-full">
                         <div className="flex justify-between items-center p-2 bg-gray-100 text-gray-500">
                             <div className="font-bold">尺寸</div>
