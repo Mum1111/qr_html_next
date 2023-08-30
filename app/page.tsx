@@ -19,6 +19,7 @@ interface ImageSettings {
     height: number
     width: number
     excavate: boolean
+    crossOrigin?: string
     x?: number
     y?: number
 }
@@ -70,6 +71,7 @@ export default function Home() {
             imageSettings: {
                 ...qrCodeProps.imageSettings,
                 src: imageUrl,
+                crossOrigin: 'anonymous',
             },
         })
     }
@@ -104,15 +106,15 @@ export default function Home() {
         const fileName = `${new Date().getTime()}`
         const canvasImg: any = document.getElementById('qrCode') // 获取canvas类型的二维码
         const img = new Image()
-        img.crossOrigin = 'anonymous'
         const link = document.createElement('a')
-        const evt = new Event('click', { bubbles: false, cancelable: false })
+        const evt = document.createEvent('MouseEvents')
+        // const evt = new Event('click', { bubbles: false, cancelable: false })
         img.src = canvasImg.toDataURL('image/png') // 将canvas对象转换为图片的data url
         link.style.display = 'none'
         link.href = img.src
         link.download = fileName
         document.body.appendChild(link) // 此写法兼容可火狐浏览器
-        // evt.initEvent('click', false, false)
+        evt.initEvent('click', false, false)
         link.dispatchEvent(evt)
         document.body.removeChild(link)
     }

@@ -27,9 +27,35 @@ export const LogoList: React.FC<LogoListProps> = ({ genQrCenterLogo }) => {
 
     const { logoList } = useLogo()
 
-    const chooseLogo = (logoId: string) => {
+    const urlToBase64 = (url: string) => {
+        return new Promise<string>((resolve, reject) => {
+            const img = new Image()
+            img.crossOrigin = 'Anonymous'
+            img.src = url
+            // img.setAttribute('crossOrigin', 'Anonymous')
+            img.onload = function () {
+                const canvas = document.createElement('canvas')
+                const width = img.width
+                const height = img.height
+                canvas.height = height
+                canvas.width = width
+                canvas.getContext('2d')?.drawImage(img, 0, 0, width, height)
+                const baseUrl = canvas.toDataURL('image/jpeg')
+                resolve(baseUrl)
+            }
+            img.onerror = function (error) {
+                reject(error)
+            }
+        })
+    }
+
+    const chooseLogo = async (logoId: string) => {
         setLogoId(logoId)
-        genQrCenterLogo(logoId)
+        let logoUrl = 'default'
+        if (logoId !== 'default') {
+            logoUrl = await urlToBase64(logoId)
+        }
+        genQrCenterLogo(logoUrl)
     }
 
     const handleHiddenFileInputShow = () => {
