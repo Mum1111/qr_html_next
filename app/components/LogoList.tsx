@@ -73,10 +73,14 @@ export const LogoList: React.FC<LogoListProps> = ({ genQrCenterLogo }) => {
             await mutate('/api/common/logo')
             enqueueSnackbar(success, {
                 variant: 'success',
+                anchorOrigin: { horizontal: 'center', vertical: 'top' },
             })
         } catch (e) {
             // @ts-ignore
-            enqueueSnackbar(e, { variant: 'error' })
+            enqueueSnackbar(e, {
+                variant: 'error',
+                anchorOrigin: { horizontal: 'center', vertical: 'top' },
+            })
         }
     }
 

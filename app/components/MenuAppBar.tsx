@@ -43,7 +43,6 @@ function stringAvatar(name: string | undefined | null) {
 }
 
 export default function MenuAppBar() {
-    const [auth, setAuth] = React.useState(true)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
     const { data: session } = useSession()
@@ -71,17 +70,24 @@ export default function MenuAppBar() {
     return (
         <AppBar
             position="fixed"
-            sx={{ bgcolor: grey[50] }}
+            // sx={{ bgcolor: grey[50] }}
+            color={'transparent'}
             className="bg-opacity-50 backdrop-blur-md text-black"
         >
-            <Toolbar>
-                <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{ flexGrow: 1, color: '#14b8a6' }}
-                >
-                    二维码生成
-                </Typography>
+            <Toolbar className="flex justify-between h-20">
+                <div className="w-100 h-full">
+                    <svg className="header_svg">
+                        <text
+                            className="header_svg_text tracking-wide"
+                            x="50%"
+                            y="50%"
+                            dy=".35em"
+                            textAnchor="middle"
+                        >
+                            二维码生成
+                        </text>
+                    </svg>
+                </div>
                 {session && (
                     <div className="flex items-center">
                         <Typography

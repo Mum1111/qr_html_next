@@ -17,7 +17,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             <body>
                 <SessionProvider>
                     <CssBaseline />
-                    <SnackbarProvider maxSnack={3}>
+                    <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
                         <div>{props.children}</div>
                     </SnackbarProvider>
                 </SessionProvider>
