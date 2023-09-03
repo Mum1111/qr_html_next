@@ -1,10 +1,11 @@
 'use client'
 import './globals.css'
-import React, { Suspense } from 'react'
-import Loading from '@/app/loading'
+import React from 'react'
 import { SessionProvider } from 'next-auth/react'
 import { SnackbarProvider } from 'notistack'
-import { CssBaseline } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from '@/config/theme'
+import MenuAppBar from '@/app/components/MenuAppBar'
 
 // export const metadata = {
 //     title: '二维码',
@@ -16,10 +17,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <html lang="zh-CN">
             <body>
                 <SessionProvider>
-                    <CssBaseline />
-                    <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
-                        <div>{props.children}</div>
-                    </SnackbarProvider>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <MenuAppBar />
+                        <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
+                            <div>{props.children}</div>
+                        </SnackbarProvider>
+                    </ThemeProvider>
                 </SessionProvider>
                 {/*<Suspense fallback={<Loading />}>{props.children}</Suspense>*/}
             </body>

@@ -3,7 +3,6 @@
 import { Icon } from '@iconify/react'
 import { CSSProperties, useState } from 'react'
 import QRCode from 'qrcode.react'
-import MenuAppBar from '@/app/components/MenuAppBar'
 import { Button, Radio, TextField } from '@mui/material'
 import { LogoList } from '@/app/components/LogoList'
 import { enqueueSnackbar } from 'notistack'
@@ -113,27 +112,26 @@ export default function Home() {
             })
             return
         }
-
         const fileName = `${new Date().getTime()}`
         const canvasImg: any = document.getElementById('qrCode') // 获取canvas类型的二维码
         const img = new Image()
         const link = document.createElement('a')
-        // const evt = document.createEvent('MouseEvents')
-        const evt = new Event('click', { bubbles: false, cancelable: false })
+        const evt = document.createEvent('MouseEvents')
+        img.setAttribute('crossOrigin', 'anonymous')
         img.src = canvasImg.toDataURL('image/png') // 将canvas对象转换为图片的data url
         link.style.display = 'none'
         link.href = img.src
         link.download = fileName
+
         document.body.appendChild(link) // 此写法兼容可火狐浏览器
-        // evt.initEvent('click', false, false)
+        evt.initEvent('click', false, false)
         link.dispatchEvent(evt)
         document.body.removeChild(link)
     }
 
     return (
         <>
-            <MenuAppBar />
-            <main className="h-calc mt-20 flex items-center box-border justify-center px-24">
+            <main className="h-calc max-w-6xl mx-auto mt-20 flex items-center box-border justify-center">
                 <div
                     style={{ height: '556px' }}
                     className="bg-white rounded-xl box-border shadow-2xl w-3/4 mr-4 px-14 flex flex-col justify-center"
@@ -149,7 +147,7 @@ export default function Home() {
                     />
                     <div className="mt-10">
                         <Button
-                            className="px-10 py-3 text-white transition flex items-center duration-700 ease-in-out  bg-teal-500 rounded-full hover:scale-110 hover:bg-teal-600"
+                            variant="contained"
                             onClick={() => createQrcode()}
                         >
                             <Icon
@@ -186,7 +184,6 @@ export default function Home() {
                                 >
                                     <Radio
                                         name="ts"
-                                        className="mr-2 focus:border-teal-600 text-teal-600 focus:ring-2 focus:ring-teal-600"
                                         value={item.value}
                                         checked={
                                             item.value === chooseRadioValue
@@ -200,7 +197,7 @@ export default function Home() {
                     </div>
                     <div className="flex justify-start mt-5 w-full">
                         <Button
-                            className="px-10 py-3 flex items-center text-white transition duration-700 ease-in-out  bg-teal-500 rounded-md hover:scale-110 hover:bg-teal-600"
+                            variant="contained"
                             onClick={() => downLoadQrCode()}
                         >
                             <Icon

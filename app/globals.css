@@ -23,7 +23,7 @@
   animation: stroke 5s infinite alternate;
   stroke-width: 2;
   stroke: #0D9488;
-  font-size: 50px;
+  font-size: 36px;
 }
 @keyframes stroke {
   0%   {

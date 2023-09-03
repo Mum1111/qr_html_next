@@ -58,7 +58,6 @@ export default function MenuAppBar() {
 
     const editUserInfo = () => {
         handleClose()
-        console.log(123)
         router.push('/user')
     }
 
@@ -70,15 +69,14 @@ export default function MenuAppBar() {
     return (
         <AppBar
             position="fixed"
-            // sx={{ bgcolor: grey[50] }}
             color={'transparent'}
             className="bg-opacity-50 backdrop-blur-md text-black"
         >
-            <Toolbar className="flex justify-between h-20">
+            <Toolbar className="flex justify-between h-16">
                 <div className="w-100 h-full">
                     <svg className="header_svg">
                         <text
-                            className="header_svg_text tracking-wide"
+                            className="header_svg_text tracking-wide font-bold"
                             x="50%"
                             y="50%"
                             dy=".35em"
