@@ -36,7 +36,7 @@ npx  prisma migrate dev
 8. 校验没有url时不让下载 完成
 9. 缓存转换的base64
 10. 上传文件时显示loading动画
-11. 样式优化
+11. 样式优化 完成
 12. 部署上线
 
 

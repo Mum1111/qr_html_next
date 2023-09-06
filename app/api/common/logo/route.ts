@@ -6,7 +6,7 @@ import { ApiErrorResponse, ApiSuccessResponse } from '@/types/request'
 
 const prisma = new PrismaClient()
 
-export async function GET(req: NextResponse) {
+export async function GET() {
     // 获取当前用户id
     const session = await getServerSession(authOptions)
 

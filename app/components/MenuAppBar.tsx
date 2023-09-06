@@ -70,7 +70,7 @@ export default function MenuAppBar() {
         <AppBar
             position="fixed"
             color={'transparent'}
-            className="bg-opacity-50 backdrop-blur-md text-black"
+            // className="bg-opacity-50 backdrop-blur-md text-black"
         >
             <Toolbar className="flex justify-between h-16">
                 <div className="w-100 h-full">
