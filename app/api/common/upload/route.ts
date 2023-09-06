@@ -1,12 +1,12 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { upLoadToOss } from '@/app/api/common/upload/alioss'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export async function POST(req: NextResponse) {
+export async function POST(req: NextRequest) {
     // 获取当前用户id
     const session = await getServerSession(authOptions)
 
