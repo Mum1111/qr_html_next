@@ -28,15 +28,15 @@ export const authOptions: AuthOptions = {
             },
             from: process.env.EMAIL_FROM,
         }),
-        // GithubProvider({
-        //     // @ts-ignore
-        //     clientId: process.env.GITHUB_ID,
-        //     // @ts-ignore
-        //     clientSecret: process.env.GITHUB_SECRET,
-        //     httpOptions: {
-        //         timeout: 50000,
-        //     },
-        // }),
+        GithubProvider({
+            // @ts-ignore
+            clientId: process.env.GITHUB_ID,
+            // @ts-ignore
+            clientSecret: process.env.GITHUB_SECRET,
+            httpOptions: {
+                timeout: 50000,
+            },
+        }),
         // ...add more providers here
     ],
     callbacks: {
