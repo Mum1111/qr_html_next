@@ -6,6 +6,7 @@ import { SnackbarProvider } from 'notistack'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from '@/config/theme'
 import MenuAppBar from '@/app/components/MenuAppBar'
+import { Analytics } from '@vercel/analytics/react'
 
 // export const metadata = {
 //     title: '二维码',
@@ -26,6 +27,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                     </ThemeProvider>
                 </SessionProvider>
                 {/*<Suspense fallback={<Loading />}>{props.children}</Suspense>*/}
+                <Analytics />
             </body>
         </html>
     )
