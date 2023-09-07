@@ -66,6 +66,11 @@ export default function MenuAppBar() {
         signOut()
     }
 
+    const logIn = (e: any) => {
+        e.preventDefault()
+        signIn()
+    }
+
     return (
         <AppBar
             position="fixed"
@@ -133,7 +138,7 @@ export default function MenuAppBar() {
                     <>
                         <Button
                             sx={{ color: teal[500] }}
-                            onClick={() => signIn()}
+                            onClick={(e) => logIn(e)}
                         >
                             登录
                         </Button>
