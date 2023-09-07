@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "prepare": "husky install"
   },
   "dependencies": {
