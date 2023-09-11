@@ -8,10 +8,10 @@ import { LogoList } from '@/app/components/LogoList'
 import { enqueueSnackbar } from 'notistack'
 
 const pxDict = [
-    { value: 1024, label: '2048 ✖️ 2048' },
-    { value: 512, label: '1024 ✖️ 1024' },
-    { value: 256, label: '512 ✖️ 512' },
-    { value: 128, label: '256 ✖️ 256' },
+    { value: 2048, label: '2048 ✖️ 2048' },
+    { value: 1024, label: '1024 ✖️ 1024' },
+    { value: 512, label: '512 ✖️ 512' },
+    { value: 256, label: '256 ✖️ 256' },
 ]
 
 interface ImageSettings {
@@ -38,7 +38,7 @@ interface QRProps {
 export default function Home() {
     const qrCodeDefaultProps: QRProps = {
         value: '',
-        size: 512, // 二维码的大小
+        size: 1024, // 二维码的大小
         fgColor: '#000000', // 二维码的颜色
         level: 'H',
         style: {
